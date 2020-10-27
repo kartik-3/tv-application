@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tv_1 = require("./tv");
 var video_playing = false;
-var curr_volume = 0, prev_volume, curr_video = 0;
+var curr_volume = 0, prev_volume, curr_video = 0, curr_class;
 var lg = new tv_1.Tv("LG", "Z1", "4K", "16:9", "55 inch");
+var sg = new tv_1.Tv("Samsung", "F1", "4K", "4:3", "43 inch");
 var mi = new tv_1.Tv("Xiaomi", "A10", "FHD", "16:9", "49 inch");
-var sg = new tv_1.Tv("Samsung", "F1", "4K", "3:2", "43 inch");
 var videos = [
     "./videos/1.mp4",
     "./videos/2.mp4",
@@ -18,7 +18,6 @@ var mute = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaX
 var pause = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNDcuNjA3IDQ3LjYwNyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDcuNjA3IDQ3LjYwNzsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPHBhdGggZD0iTTE3Ljk5MSw0MC45NzZjMCwzLjY2Mi0yLjk2OSw2LjYzMS02LjYzMSw2LjYzMWwwLDBjLTMuNjYyLDAtNi42MzEtMi45NjktNi42MzEtNi42MzFWNi42MzFDNC43MjksMi45NjksNy42OTgsMCwxMS4zNiwwDQoJCWwwLDBjMy42NjIsMCw2LjYzMSwyLjk2OSw2LjYzMSw2LjYzMVY0MC45NzZ6Ii8+DQoJPHBhdGggZD0iTTQyLjg3Nyw0MC45NzZjMCwzLjY2Mi0yLjk2OSw2LjYzMS02LjYzMSw2LjYzMWwwLDBjLTMuNjYyLDAtNi42MzEtMi45NjktNi42MzEtNi42MzFWNi42MzENCgkJQzI5LjYxNiwyLjk2OSwzMi41ODUsMCwzNi4yNDYsMGwwLDBjMy42NjIsMCw2LjYzMSwyLjk2OSw2LjYzMSw2LjYzMVY0MC45NzZ6Ii8+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg==";
 var play = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjE2My44NjFweCIgaGVpZ2h0PSIxNjMuODYxcHgiIHZpZXdCb3g9IjAgMCAxNjMuODYxIDE2My44NjEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE2My44NjEgMTYzLjg2MTsiDQoJIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPHBhdGggZD0iTTM0Ljg1NywzLjYxM0MyMC4wODQtNC44NjEsOC4xMDcsMi4wODEsOC4xMDcsMTkuMTA2djEyNS42MzdjMCwxNy4wNDIsMTEuOTc3LDIzLjk3NSwyNi43NSwxNS41MDlMMTQ0LjY3LDk3LjI3NQ0KCQljMTQuNzc4LTguNDc3LDE0Ljc3OC0yMi4yMTEsMC0zMC42ODZMMzQuODU3LDMuNjEzeiIvPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo=";
 var tv_video = document.querySelector("#tv-video");
-tv_video.height = 200;
 tv_video.src = videos[curr_video];
 curr_volume = 0.5;
 tv_video.volume = curr_volume;
@@ -81,36 +80,37 @@ prev_video.addEventListener("click", function () {
         tv_video.src = videos[videos.length - 1];
     }
 });
-var tv_select = document.querySelector("tv-options");
+var tv_select = document.querySelector("#tv-options");
 var tv_brand = document.querySelector("#tv-brand");
 var tv_model = document.querySelector("#tv-model");
 var tv_res = document.querySelector("#tv-resolution");
 var tv_aspect = document.querySelector("#tv-aspect-ratio");
 var tv_size = document.querySelector("#tv-size");
-console.log("as");
-document.querySelector("#tv-select-btn").addEventListener("click", function () {
-    console.log(tv_select.selectedIndex);
+var tv_select_btn = document.querySelector("#select-btn");
+tv_select_btn.addEventListener("click", function () {
+    curr_class = tv_video.classList.item(0);
     switch (tv_select.selectedIndex) {
         case 0:
-            tv_brand.innerText = lg.getBrand();
-            tv_model.innerText = lg.getModel();
-            tv_res.innerText = lg.getResolution();
-            tv_aspect.innerText = lg.getAspectRatio();
-            tv_size.innerText = lg.getSize();
+            listTvParams(lg);
+            tv_video.classList.replace(curr_class, "lg-tv");
+            tv_video.width = 550;
             break;
         case 1:
-            tv_brand.innerText = sg.getBrand();
-            tv_model.innerText = sg.getModel();
-            tv_res.innerText = sg.getResolution();
-            tv_aspect.innerText = sg.getAspectRatio();
-            tv_size.innerText = sg.getSize();
+            listTvParams(sg);
+            tv_video.classList.replace(curr_class, "sg-tv");
+            tv_video.width = 430;
             break;
         case 2:
-            tv_brand.innerText = mi.getBrand();
-            tv_model.innerText = mi.getModel();
-            tv_res.innerText = mi.getResolution();
-            tv_aspect.innerText = mi.getAspectRatio();
-            tv_size.innerText = mi.getSize();
+            listTvParams(mi);
+            tv_video.classList.replace(curr_class, "mi-tv");
+            tv_video.width = 490;
             break;
     }
 });
+var listTvParams = function (obj) {
+    tv_brand.innerText = obj.getBrand();
+    tv_model.innerText = obj.getModel();
+    tv_res.innerText = obj.getResolution();
+    tv_aspect.innerText = obj.getAspectRatio();
+    tv_size.innerText = obj.getSize();
+};
