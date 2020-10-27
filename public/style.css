@@ -1,0 +1,59 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+/* display: block;
+margin: 0 auto !important; */
+
+.center-element,
+.tv-frame {
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.volume-controls,
+.video-controls {
+  /* display: block !important;
+    margin: 0 auto !important; */
+  margin: 0 35% 0 35%;
+}
+
+li {
+  /* text-align: center; */
+}
+
+.lg-tv {
+  border: 7px red solid;
+}
+
+.sg-tv {
+  border: 7px blue solid;
+}
+
+.mi-tv {
+  border: 7px rgb(255, 137, 26) solid;
+}
+
+/* #tv-video {
+    border: 10px solid black;
+} */
+
+.row {
+  margin: 1%;
+}
+
+.big-text {
+  font-size: 35px !important;
+  font-weight: 600 !important;
+}
+
+.nba-txt {
+  text-align: center;
+  font-size: 45px !important;
+  font-weight: 700 !important;
+}
