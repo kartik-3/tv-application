@@ -3,9 +3,6 @@
   margin: 0;
 }
 
-/* display: block;
-margin: 0 auto !important; */
-
 .center-element,
 .tv-frame {
   display: block !important;
@@ -18,13 +15,7 @@ margin: 0 auto !important; */
 
 .volume-controls,
 .video-controls {
-  /* display: block !important;
-    margin: 0 auto !important; */
   margin: 0 35% 0 35%;
-}
-
-li {
-  /* text-align: center; */
 }
 
 .lg-tv {
@@ -38,10 +29,6 @@ li {
 .mi-tv {
   border: 7px rgb(255, 137, 26) solid;
 }
-
-/* #tv-video {
-    border: 10px solid black;
-} */
 
 .row {
   margin: 1%;
